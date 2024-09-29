@@ -7,11 +7,10 @@ export class ImageService extends PrismaClient {
         super();
     }
 
-    async createResponseImage(file: Express.Multer.File): Promise<ResponseImage> {
-        console.log("teste")
+    async createResponseImage(file: Express.Multer.File, marcaExtraida: string): Promise<ResponseImage> {
         return this.responseImage.create({
             data: {
-                marca: "teste",
+                marca: marcaExtraida,
                 dataHora: new Date(),
                 buffer: file.buffer
             }

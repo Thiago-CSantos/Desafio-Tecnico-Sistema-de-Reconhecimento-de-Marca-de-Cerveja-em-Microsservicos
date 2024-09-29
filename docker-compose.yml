@@ -1,0 +1,50 @@
+version: '3.8'
+
+services:
+  # Serviço do Flask
+  flask-api:
+    build: ./api-2-ORC
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./api-2-ORC:/app
+    environment:
+      - FLASK_ENV=development
+    networks:
+      - my-network
+
+  # Banco de dados para o NestJS
+  db:
+    image: postgres:alpine
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: root
+    container_name: postgres
+    volumes:
+      - ./api-1-nest-js/pg-data:/var/lib/postgresql/data
+    ports:
+      - '5432:5432'
+    networks:
+      - my-network
+
+  # Serviço do NestJS
+  app:
+    build: ./api-1-nest-js
+    ports:
+      - '3000:3000'
+    volumes:
+      - ./api-1-nest-js/src:/app/src
+    environment:
+      - NODE_ENV=production
+      - DATABASE_URL=postgresql://postgres:root@db:5432/ambevapi?schema=public
+    depends_on:
+      - db
+    command: > 
+      sh -c "npx prisma migrate deploy && npm run dev"
+    networks:
+      - my-network
+
+networks:
+  my-network:
+    external: true

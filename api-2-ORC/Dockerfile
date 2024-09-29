@@ -10,6 +10,15 @@ COPY requirements.txt .
 # Instala as dependências listadas no requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
 
+# Instalar Tesseract OCR e suas dependências
+RUN apt-get update && apt-get install -y \
+    tesseract-ocr \
+    libtesseract-dev \
+    && apt-get clean
+
+# Instalar as bibliotecas necessárias via pip
+RUN pip install --no-cache-dir Flask opencv-python-headless pytesseract Pillow
+
 # Copia o restante dos arquivos da aplicação para o container
 COPY . .
 

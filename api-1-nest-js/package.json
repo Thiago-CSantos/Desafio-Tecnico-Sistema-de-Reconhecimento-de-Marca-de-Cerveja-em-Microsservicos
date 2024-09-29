@@ -26,6 +26,8 @@
     "@prisma/client": "^5.20.0",
     "@types/multer": "^1.4.12",
     "api-1-nest-js": "file:",
+    "axios": "^1.7.7",
+    "form-data": "^4.0.0",
     "prisma": "^5.20.0",
     "reflect-metadata": "^0.2.0",
     "rxjs": "^7.8.1"

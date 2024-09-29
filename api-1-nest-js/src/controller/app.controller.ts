@@ -4,6 +4,9 @@ import { UploadImageDto } from '../DTO/UploadImageDto';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ImageService } from '../service/Image.service';
 import { ResponseImage } from '@prisma/client';
+import axios from 'axios';
+import * as FormData from 'form-data';
+import { HttpErrorByCode } from '@nestjs/common/utils/http-error-by-code.util';
 
 @Controller()
 export class AppController {
@@ -17,16 +20,25 @@ export class AppController {
   @Post('upload')
   @HttpCode(207)
   @UseInterceptors(FileInterceptor('image'))
-  async uploadImage(@UploadedFile() file: Express.Multer.File): Promise<{ message: String } | { error: String }> {
+  async uploadImage(@UploadedFile() file: Express.Multer.File): Promise<{ marca: String, status: Number } | { error: String }> {
 
-    console.log(file);
+    // console.log(file);
     try {
 
       if (file.mimetype.match("/\/(jpg|jpeg|png)$/") || file === undefined) {
         return { error: "Apenas arquivos de imagem são permitidos! " }
       }
-      this.service.createResponseImage(file)
-      return { message: `Imagem ${file.originalname} enviada com sucesso!` };
+
+      const formData = new FormData();
+      formData.append('image', file.buffer, { contentType: file.mimetype, filename: file.originalname });
+
+      const resposta = await axios.post("http://flask-api:5000/api/enviar", formData, { headers: { "Content-Type": "multipart/form-data" } });
+
+      if (resposta.status != 200) {
+        return { error: HttpErrorByCode[422].toString() }
+      }
+      this.service.createResponseImage(file, resposta.data.dados);
+      return { marca: resposta.data.dados, status: resposta.status }
 
     } catch (error) {
 
