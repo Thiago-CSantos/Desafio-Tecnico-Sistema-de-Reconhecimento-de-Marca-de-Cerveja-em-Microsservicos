@@ -12,7 +12,8 @@
 
 1. Primeiro clone o repositório `git clone https://github.com/Thiago-CSantos/Desafio-Tecnico-Sistema-de-Reconhecimento-de-Marca-de-Cerveja-em-Microsservicos.git`
 2. Segundo inicie o Docker na sua maquina, quando docker já estiver tudo OK!
-execute o seguintes comando na raiz do projeto(onde se localiza o arquivo **docker-compose**) ` docker-compose up -d `.
+execute o seguintes comando na raiz do projeto(onde se localiza o arquivo **docker-compose**) ` docker-compose up `.
+4. Espere até que apareça que o postgres se conectou ![alt text](image-3.png)
 3. Espere terminar de criar os serviços e execute o comando ` docker-compose up app ` para executar o serviço do **NestJS** e rodar as migrations do banco.
 4. Com isso já pode consumir a API.
 
