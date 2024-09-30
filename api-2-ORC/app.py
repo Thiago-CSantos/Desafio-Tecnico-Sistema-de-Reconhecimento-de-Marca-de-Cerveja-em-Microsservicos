@@ -8,22 +8,12 @@ import numpy as np
 
 app = Flask(__name__)
 
-# Rota de exemplo para a API
 @app.route('/api/process-image', methods=['POST'])
-def processImage():
-
-    img = cv2.imread("image.webp")
-    pytesseract.pytesseract.tesseract_cmd = '/usr/bin/tesseract'
-
-    
-
-    # Retorna um JSON como resposta
-    data = {"mensagem": "Olá, esta é uma API em Flask!"}
-    return jsonify(data)
-
-# Outra rota de exemplo para POST
-@app.route('/api/enviar', methods=['POST'])
 def enviar_dados():
+
+    if 'image' not in request.files:
+        return jsonify({"erro": "Nenhum arquivo enviado"}), 400
+    
     # Captura dados enviados no corpo da requisição
     imagem_recebidos = request.files['image']
     
@@ -38,7 +28,3 @@ def enviar_dados():
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000,debug=True)
-
-
-#openCv - ler a imagem  pip install opencv-python
-#Tesseract - Reconhecer caracteres

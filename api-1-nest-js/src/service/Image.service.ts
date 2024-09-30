@@ -21,4 +21,9 @@ export class ImageService extends PrismaClient {
         return this.responseImage.findMany()
     }
 
+    async findOne(id: string): Promise<ResponseImage> {
+        const idNumero = parseInt(id)
+        return this.responseImage.findUnique({ where: { id:idNumero } })
+    }
+
 }

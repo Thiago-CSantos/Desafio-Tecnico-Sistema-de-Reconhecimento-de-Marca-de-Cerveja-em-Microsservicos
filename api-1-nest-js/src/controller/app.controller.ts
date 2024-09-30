@@ -1,6 +1,4 @@
-import { Controller, Get, HttpCode, HttpException, HttpStatus, Post, UploadedFile, UseInterceptors } from '@nestjs/common';
-import { AppService } from '../service/app.service';
-import { UploadImageDto } from '../DTO/UploadImageDto';
+import { Controller, Get, HttpCode, HttpException, HttpStatus, Param, Post, UploadedFile, UseInterceptors } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ImageService } from '../service/Image.service';
 import { ResponseImage } from '@prisma/client';
@@ -10,12 +8,7 @@ import { HttpErrorByCode } from '@nestjs/common/utils/http-error-by-code.util';
 
 @Controller()
 export class AppController {
-  constructor(private readonly appService: AppService, private service: ImageService) { }
-
-  @Get('/')
-  getHello(): string {
-    return this.appService.getHello();
-  }
+  constructor(private service: ImageService) { }
 
   @Post('upload')
   @HttpCode(207)
@@ -32,7 +25,7 @@ export class AppController {
       const formData = new FormData();
       formData.append('image', file.buffer, { contentType: file.mimetype, filename: file.originalname });
 
-      const resposta = await axios.post("http://flask-api:5000/api/enviar", formData, { headers: { "Content-Type": "multipart/form-data" } });
+      const resposta = await axios.post("http://flask-api:5000/api/process-image", formData, { headers: { "Content-Type": "multipart/form-data" } });
 
       if (resposta.status != 200) {
         return { error: HttpErrorByCode[422].toString() }
@@ -53,9 +46,14 @@ export class AppController {
     }
   }
 
-  @Get("findAll")
+  @Get("logs")
   async findAll(): Promise<ResponseImage[]> {
     return this.service.findAll();
+  }
+
+  @Get("logs/:id")
+  async getLogsId(@Param('id') id: string): Promise<ResponseImage> {
+    return this.service.findOne(id);
   }
 
 }
