@@ -23,7 +23,11 @@ export class ImageService extends PrismaClient {
 
     async findOne(id: string): Promise<ResponseImage> {
         const idNumero = parseInt(id)
-        return this.responseImage.findUnique({ where: { id:idNumero } })
+        return this.responseImage.findUnique({ where: { id: idNumero } })
+    }
+
+    removeEspacos(marca: string): string {
+        return marca.replace("\n", " ").trim()
     }
 
 }

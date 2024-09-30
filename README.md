@@ -2,8 +2,6 @@
 
 ## Sistema de Reconhecimento de Marca de Cerveja em Microsserviços
 
-----------
-
 1. Como executar o projeto
 2. Arquitetura e tecnologias utilizadas
 3. Exemplos
@@ -20,6 +18,8 @@ execute o seguintes comando na raiz do projeto(onde se localiza o arquivo **dock
 ----------
 
 ## Arquitetura e tecnologias utilizadas
+
+- ### Microsserviço com Docker
 
 - ### O **NestJS** usa uma arquitetura modular, baseada em módulos, para organizar o desenvolvimento de aplicativos
 
@@ -40,3 +40,7 @@ execute o seguintes comando na raiz do projeto(onde se localiza o arquivo **dock
 para buscar pelo id basta passar (/logs/id)
 
 ![alt text](image-2.png)
+
+----------
+
+imagens para teste caso nescesario está no diretorio /image na raiz

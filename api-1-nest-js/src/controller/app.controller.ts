@@ -18,6 +18,11 @@ export class AppController {
     // console.log(file);
     try {
 
+      // Verifica se um arquivo foi enviado
+      if (!file) {
+        return { error: "Nenhum arquivo enviado!" };
+      }
+
       if (file.mimetype.match("/\/(jpg|jpeg|png)$/") || file === undefined) {
         return { error: "Apenas arquivos de imagem são permitidos! " }
       }
@@ -30,8 +35,11 @@ export class AppController {
       if (resposta.status != 200) {
         return { error: HttpErrorByCode[422].toString() }
       }
-      this.service.createResponseImage(file, resposta.data.dados);
-      return { marca: resposta.data.dados, status: resposta.status }
+
+      const marca: string = this.service.removeEspacos(resposta.data.dados);
+
+      this.service.createResponseImage(file, marca);
+      return { marca: marca, status: resposta.status }
 
     } catch (error) {
 
