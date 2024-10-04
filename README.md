@@ -56,3 +56,4 @@ para buscar pelo id basta passar (/logs/id)
 ----------
 
 imagens para teste caso nescesario está no diretorio /image na raiz
+artigo para melhorar a imagem https://medium.com/@genilsonmedeiros/reconhecimento-de-caracteres-em-imagens-com-tesseract-ocr-e-python-parte-3-84e8bd9d6298
